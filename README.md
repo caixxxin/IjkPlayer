@@ -12,7 +12,7 @@ cd /root
 apt update
 apt install -y git yasm curl wget gcc make cmake unzip build-essential
 add-apt-repository -y ppa:openjdk-r/ppa
-apt install -y openjdk-8-jdk
+apt install -y openjdk-8-jdk openjdk-17-jdk
 
 ###########################
 # 下载Android-Studio 并安装sdk25和build tool 25.0.3 (可以单独安装commandlinetools)
@@ -44,15 +44,15 @@ yes | ./sdkmanager --licenses
 cd /root
 wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip
 unzip android-ndk-r10e-linux-x86_64.zip
-mkdir -p /root/Android/ndk
-mv android-ndk-r10e /root/Android/ndk
+mkdir -p /root/Android/Sdk/ndk
+mv android-ndk-r10e /root/Android/Sdk/ndk/
 
 
 ##################
 # 下载代码
 ##################
-#git config --global http.proxy http://192.168.11.113:7897
-#git config --global https.proxy http://192.168.11.113:7897
+#git config --global http.proxy http://192.168.2.46:7897
+#git config --global https.proxy http://192.168.2.46:7897
 
 cd /root
 git clone https://github.com/Bilibili/ijkplayer.git
@@ -60,12 +60,9 @@ git clone https://github.com/Bilibili/ijkplayer.git
 ###########################
 # 加载环境变量
 ###########################
-export ANDROID_SDK=/root/Android/Sdk
-export PATH=$ANDROID_SDK/platform-tools:$PATH
-export PATH=$ANDROID_SDK/tools:$PATH
-export ANDROID_NDK=/root/Android/ndk/android-ndk-r10e
-export PATH=$ANDROID_NDK:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export ANDROID_HOME=/root/Android/Sdk
+export ANDROID_NDK=/root/Android/Sdk/ndk/android-ndk-r10e
 
 
 ###########################
@@ -119,9 +116,9 @@ sed -i "/systemProp.http.proxyPort/d" gradle.properties
 sed -i "/systemProp.https.proxyHost/d" gradle.properties
 sed -i "/systemProp.https.proxyPort/d" gradle.properties
 echo "" >> gradle.properties
-echo "systemProp.http.proxyHost=192.168.11.113" >> gradle.properties
+echo "systemProp.http.proxyHost=192.168.2.46" >> gradle.properties
 echo "systemProp.http.proxyPort=7897" >> gradle.properties
-echo "systemProp.https.proxyHost=192.168.11.113" >> gradle.properties
+echo "systemProp.https.proxyHost=192.168.2.46" >> gradle.properties
 echo "systemProp.https.proxyPort=7897" >> gradle.properties
 
 # 去掉无用的工程
